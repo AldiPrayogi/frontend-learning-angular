@@ -19,7 +19,7 @@
         "plugin:@angular-eslint/template/process-inline-templates"
       ],
       "rules": {
-        "semi": "error",
+        "semi": ["error", "always"],
         "quotes": ["error", "single"],
         "@angular-eslint/directive-selector": [
           "error",
