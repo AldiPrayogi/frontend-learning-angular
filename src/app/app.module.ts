@@ -19,6 +19,8 @@ import { MatInputModule } from '@angular/material/input';
 import { HeroEditComponent } from './hero-edit/hero-edit.component';
 import { MatSelectModule } from '@angular/material/select';
 import { HeroCreateComponent } from './hero-create/hero-create.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -43,6 +45,8 @@ import { HeroCreateComponent } from './hero-create/hero-create.component';
     MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
+    MatDialogModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { imageMap } from '../imageAsset';
+import { MatDialog } from '@angular/material/dialog';
+import { HeroCreateComponent } from '../hero-create/hero-create.component';
 
 @Component({
   selector: 'app-heroes',
@@ -17,7 +19,19 @@ export class HeroesComponent implements OnInit {
 
   displayedColumns: string[] = ['position', 'name', 'description', 'level', 'type'];
 
-  constructor(private heroService: HeroService) {
+  constructor(
+    private heroService: HeroService,
+    public dialog: MatDialog,
+    ) {
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(HeroCreateComponent, {
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getHeroes();
+    });
   }
 
   getTotalHeroes(): number {
@@ -26,33 +40,13 @@ export class HeroesComponent implements OnInit {
 
   getHeroes(event?: any): void {
     if (event){
-      console.log(event);
       this.pageIndex = event.pageIndex;
-      console.log(this.pageIndex);
       this.offset = this.pageIndex*10;
     }
     this.heroService.getHeroes(this.offset)
       .subscribe((response) => {
-        console.log(response);
         this.heroes = response.returnedHeroes;
         this.totalHeroes = response.count;
-      });
-  }
-
-  add(name: string): void {
-    name = name.trim();
-    if (!name){ return; }
-    this.heroService.addHero({ name } as Hero)
-      .subscribe((response: any) => {
-        const createdHero = {
-          name: response.createdHero.name,
-          id: response.createdHero.id,
-          description: response.createdHero.description,
-          level: response.createdHero.level,
-          type: response.createdHero.type,
-          image: imageMap.get(response.createdHero.type.name),
-        };
-        this.heroes.push(createdHero);
       });
   }
 
