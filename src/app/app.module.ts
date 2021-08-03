@@ -16,6 +16,9 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { HeroEditComponent } from './hero-edit/hero-edit.component';
+import { MatSelectModule } from '@angular/material/select';
+import { HeroCreateComponent } from './hero-create/hero-create.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,9 @@ import { MatInputModule } from '@angular/material/input';
     HeroesComponent,
     HeroDetailComponent,
     MessagesComponent,
-    DashboardComponent
+    DashboardComponent,
+    HeroEditComponent,
+    HeroCreateComponent
   ],
   imports: [
     BrowserModule,
@@ -37,6 +42,7 @@ import { MatInputModule } from '@angular/material/input';
     MatPaginatorModule,
     MatFormFieldModule,
     MatInputModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

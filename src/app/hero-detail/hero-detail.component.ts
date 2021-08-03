@@ -12,14 +12,14 @@ import { imageMap } from '../imageAsset';
 })
 
 export class HeroDetailComponent implements OnInit {
-  @Input() heroTemp?: Hero;
+  @Input() public heroTemp?: Hero;
+  @Input() public editable: boolean = false;
   hero?: Hero;
-  editable?: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private heroService: HeroService,
-    private location: Location
+    private location: Location,
   ) {}
 
   getHero(): void {
@@ -29,28 +29,12 @@ export class HeroDetailComponent implements OnInit {
       hero.image = <string>imageMap.get(hero.type.name);
       this.hero = hero;
       this.heroTemp = hero;
-      console.log(this.heroTemp);
     });
   }
 
-  save(heroTemp: any): void {
-    console.log(heroTemp);
-    if (this.heroTemp) {
-      this.heroService.updateHero(this.heroTemp).subscribe(() => {
-        this.getHero();
-        this.changeEditMode();
-      });
-    }
-  }
-
   changeEditMode(): void {
-    console.log(this.editable);
     this.editable = !this.editable;
-  }
-
-  cancel(): void {
-    this.changeEditMode();
-    this.getHero();
+    this.heroTemp = this.hero;
   }
 
   delete(hero: Hero): void {

@@ -1,0 +1,47 @@
+<div *ngIf="heroTemp && editable" class="hero-card-container">
+  <form>
+    <mat-card class="hero-card">
+      <mat-card-header>
+        <div mat-card-avatar class="hero-header-image"></div>
+        <mat-card-title>
+          <mat-form-field>
+            <input
+              matInput
+              placeholder="Name"
+              [(ngModel)]="heroTemp.name"
+              name="heroTemp.name"
+            >
+          </mat-form-field>
+        </mat-card-title>
+        <mat-card-subtitle>
+          <input
+            matInput
+            placeholder="Level"
+            [(ngModel)]="heroTemp.level"
+            name="heroTemp.level"
+          >
+        </mat-card-subtitle>
+        <mat-card-subtitle>
+          <mat-select *ngIf="typesTemp" [(ngModel)]="typeTemp" name="type.name">
+            <mat-option *ngFor="let type of typesTemp" [value]="type.name">
+              {{type.name}}
+            </mat-option>
+          </mat-select>
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <img mat-card-image src={{heroTemp.image}} alt="Photo of a Hero Type">
+        <textarea
+          matInput
+          placeholder="Description"
+          [(ngModel)]="heroTemp.description"
+          name="heroTemp.description">
+        </textarea>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="save()">SAVE</button>
+        <button mat-button (click)="cancel()">CANCEL</button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</div>
