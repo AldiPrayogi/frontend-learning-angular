@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Hero } from '../hero';
-import { imageMap } from '../imageAsset';
 import { HeroService } from '../hero.service';
 import { TypeService } from '../type.service';
 import { Type } from '../type';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-hero-create',
@@ -16,6 +16,7 @@ export class HeroCreateComponent implements OnInit {
   constructor(
     private heroService: HeroService,
     private typeService: TypeService,
+    public dialogRef: MatDialogRef<HeroCreateComponent>,
   ) { }
 
   @Input() createdHero?: Hero;
@@ -29,20 +30,24 @@ export class HeroCreateComponent implements OnInit {
     });
   }
 
-  add(name: string): void {
-    name = name.trim();
-    if (!name){ return; }
-    this.heroService.addHero({ name } as Hero)
-      .subscribe((response: any) => {
-        console.log(response);
-      });
+  add(): void {
+    if(this.createdHero){
+      this.createdHero.name = this.createdHero.name.trim();
+      this.createdHero.type = this.selectedType;
+      console.log(this.createdHero);
+      this.dialogRef.close();
+      this.heroService.addHero(this.createdHero)
+        .subscribe(() => {
+          this.dialogRef.close();
+        });
+    }
   }
 
   ngOnInit(): void {
     this.createdHero = {
       id: '',
       name: '',
-      level: 0,
+      level: 1,
       image: '',
       description: '',
       type: {
@@ -64,6 +69,7 @@ export class HeroCreateComponent implements OnInit {
       description: new FormControl(this.createdHero.description, [
         Validators.required,
       ]),
+      type: new FormControl(this.selectedType.name),
     });
 
     this.getTypes();

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
-import { imageMap } from '../imageAsset';
 import { MatDialog } from '@angular/material/dialog';
 import { HeroCreateComponent } from '../hero-create/hero-create.component';
 
@@ -14,6 +13,7 @@ export class HeroesComponent implements OnInit {
 
   pageIndex: number = 0;
   heroes: Hero[] = [];
+  pageSize: number = 10;
   private offset: number = 0;
   private totalHeroes: number = 0;
 
@@ -30,6 +30,7 @@ export class HeroesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
+      console.log('the dialog was closed');
       this.getHeroes();
     });
   }

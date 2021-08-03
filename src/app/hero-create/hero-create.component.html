@@ -1,15 +1,23 @@
 <div *ngIf="createdHero">
-  <form>
+  <form [formGroup]="heroForm">
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Hero Name</mat-label>
-        <input matInput placeholder="Name" [(ngModel)]="createdHero.name">
+        <input matInput placeholder="Name"
+               [(ngModel)]="createdHero.name"
+               formControlName="name"
+               value="{{createdHero.name}}"
+        >
       </mat-form-field>
     </p>
     <p>
       <mat-form-field appearance="legacy">
         <mat-label>Hero Level</mat-label>
-        <input type="number" matInput placeholder="Level" [(ngModel)]="createdHero.level">
+        <input type="number" matInput placeholder="Level"
+               [(ngModel)]="createdHero.level"
+               formControlName="level"
+               value="{{createdHero.level}}"
+        >
       </mat-form-field>
     </p>
     <p>
@@ -19,6 +27,8 @@
           matInput
           placeholder="Description"
           [(ngModel)]="createdHero.description"
+          formControlName="description"
+          value="{{createdHero.description}}"
         >
         </textarea>
       </mat-form-field>
@@ -27,14 +37,15 @@
       <mat-select
         *ngIf="fetchedTypes"
         [(ngModel)]="selectedType"
-        name="type.name"
         placeholder="Hero Type"
         required
+        formControlName="type"
       >
         <mat-option *ngFor="let type of fetchedTypes" [value]="type.name">
           {{type.name}}
         </mat-option>
       </mat-select>
     </p>
+    <button type="submit" [disabled]="!heroForm.valid" (click)="add()">Save</button>
   </form>
 </div>
