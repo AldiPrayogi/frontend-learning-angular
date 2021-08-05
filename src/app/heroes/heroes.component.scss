@@ -1,15 +1,18 @@
-/* HeroesComponent's private CSS styles */
 .table-container {
-  width: 100%;
+  text-align: center;
   .heroes-table {
     min-width: 700px;
     width: 80%;
     margin: auto;
   }
-  .table-paginator{
+  .table-paginator {
     min-width: 700px;
     width: 80%;
     margin: auto;
     padding: 0 !important;
   }
+}
+
+.create-button {
+  margin-top: 2%;
 }

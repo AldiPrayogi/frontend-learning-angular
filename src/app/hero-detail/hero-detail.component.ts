@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Hero } from '../hero';
 import { ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
@@ -12,8 +12,8 @@ import { imageMap } from '../imageAsset';
 })
 
 export class HeroDetailComponent implements OnInit {
-  @Input() public heroTemp?: Hero;
-  @Input() public editable: boolean = false;
+  public heroTemp?: Hero;
+  public editable: boolean = false;
   hero?: Hero;
 
   constructor(

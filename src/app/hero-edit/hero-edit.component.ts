@@ -15,12 +15,12 @@ export class HeroEditComponent implements OnInit {
     private heroDetail: HeroDetailComponent,
     private heroService: HeroService,
     private typeService: TypeService,
-    ) {
-  }
+    ) { }
+
   @Input() heroTemp?: Hero;
-  editable?: boolean;
-  @Input() typesTemp?: any;
-  public typeTemp: any;
+  @Input() editable?: boolean;
+  typesTemp?: any;
+  public typeTemp: any = '';
 
   save(): void {
     if (this.heroTemp && this.typesTemp) {
@@ -30,7 +30,6 @@ export class HeroEditComponent implements OnInit {
         name: selectedType.name,
       };
       this.heroService.updateHero(this.heroTemp).subscribe(() => {
-        this.heroDetail.getHero();
         this.heroDetail.changeEditMode();
       });
     }
@@ -44,15 +43,16 @@ export class HeroEditComponent implements OnInit {
 
   cancel(): void {
     this.heroDetail.changeEditMode();
-    this.heroDetail.getHero();
   }
 
   ngOnInit(): void {
-    this.heroTemp = this.heroDetail.hero;
-    this.editable = this.heroDetail.editable;
     this.getTypes();
     if(this.heroTemp) {
       this.typeTemp = this.heroTemp.type.name;
     }
+  }
+
+  ngOnDestroy(): void {
+    this.heroDetail.getHero();
   }
 }

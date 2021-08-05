@@ -1,57 +1,63 @@
 <div>
   <div class="table-container">
     <h2>My Heroes</h2>
-    <table mat-table [dataSource]="heroes" class="heroes-table">
-      <ng-container matColumnDef="id">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
-      </ng-container>
+    <div *ngIf="!loading">
+      <table mat-table [dataSource]="heroes" class="heroes-table">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let hero"> {{hero.id}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="position">
-        <th mat-header-cell *matHeaderCellDef> No. </th>
-        <td mat-cell *matCellDef="let i = index"> {{(pageIndex*pageSize)+(i+1)}} </td>
-      </ng-container>
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let i = index"> {{(getPageIndex()*getPageSize())+(i+1)}} </td>
+        </ng-container>
 
-      <!-- Name Column -->
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let hero"> {{hero.name}} </td>
-      </ng-container>
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name </th>
+          <td mat-cell *matCellDef="let hero"> {{hero.name}} </td>
+        </ng-container>
 
-      <!-- Weight Column -->
-      <ng-container matColumnDef="description">
-        <th mat-header-cell *matHeaderCellDef> Description </th>
-        <td mat-cell *matCellDef="let hero"> {{hero.description}} </td>
-      </ng-container>
+        <!-- Weight Column -->
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef> Description </th>
+          <td mat-cell *matCellDef="let hero"> {{hero.description}} </td>
+        </ng-container>
 
-      <!-- Symbol Column -->
-      <ng-container matColumnDef="level">
-        <th mat-header-cell *matHeaderCellDef> Level </th>
-        <td mat-cell *matCellDef="let hero"> {{hero.level}} </td>
-      </ng-container>
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="level">
+          <th mat-header-cell *matHeaderCellDef> Level </th>
+          <td mat-cell *matCellDef="let hero"> {{hero.level}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="type">
-        <th mat-header-cell *matHeaderCellDef> Type </th>
-        <td mat-cell *matCellDef="let hero"> {{hero.type.name}} </td>
-      </ng-container>
+        <ng-container matColumnDef="type">
+          <th mat-header-cell *matHeaderCellDef> Type </th>
+          <td mat-cell *matCellDef="let hero"> {{hero.type.name}} </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr
-        mat-row
-        *matRowDef="let row;
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row;
         columns: displayedColumns"
-        [routerLink]="['/detail/', row.id]"
-      ></tr>
-    </table>
-    <mat-paginator
-      [length]="getTotalHeroes()"
-      [pageSize]="pageSize"
-      [pageIndex]="pageIndex"
-      aria-label="Select page"
-      class="table-paginator"
-      (page)="getHeroes($event)"
-    >
-    </mat-paginator>
+          [routerLink]="['/detail/', row.id]"
+        ></tr>
+      </table>
+      <mat-paginator
+        [length]="getTotalHeroes()"
+        [pageSize]="getPageSize()"
+        [hidePageSize]="true"
+        [showFirstLastButtons]="true"
+        [pageIndex]="getPageIndex()"
+        class="table-paginator"
+        (page)="getHeroes($event)"
+      >
+      </mat-paginator>
+    </div>
+    <div *ngIf="loading" class="loading">
+      <mat-spinner></mat-spinner>
+    </div>
   </div>
-  <button mat-raised-button (click)="openCreateDialog()" >Create Hero</button>
+  <button class="create-button" mat-raised-button (click)="openCreateDialog()" >Create Hero</button>
 </div>

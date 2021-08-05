@@ -3,6 +3,7 @@ import { Hero } from '../hero';
 import { HeroService } from '../hero.service';
 import { MatDialog } from '@angular/material/dialog';
 import { HeroCreateComponent } from '../hero-create/hero-create.component';
+import { finalize } from 'rxjs/operators';
 
 @Component({
   selector: 'app-heroes',
@@ -11,9 +12,10 @@ import { HeroCreateComponent } from '../hero-create/hero-create.component';
 })
 export class HeroesComponent implements OnInit {
 
-  pageIndex: number = 0;
+  private pageIndex: number = 0;
+  loading = false;
   heroes: Hero[] = [];
-  pageSize: number = 10;
+  private pageSize: number = 10;
   private offset: number = 0;
   private totalHeroes: number = 0;
 
@@ -30,13 +32,20 @@ export class HeroesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(() => {
-      console.log('the dialog was closed');
       this.getHeroes();
     });
   }
 
+  getPageIndex(): number {
+    return this.pageIndex;
+  }
+
   getTotalHeroes(): number {
     return this.totalHeroes;
+  }
+
+  getPageSize(): number {
+    return this.pageSize;
   }
 
   getHeroes(event?: any): void {
@@ -45,6 +54,9 @@ export class HeroesComponent implements OnInit {
       this.offset = this.pageIndex*10;
     }
     this.heroService.getHeroes(this.offset)
+      .pipe(
+        finalize(() => this.loading = false)
+      )
       .subscribe((response) => {
         this.heroes = response.returnedHeroes;
         this.totalHeroes = response.count;
@@ -52,6 +64,7 @@ export class HeroesComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loading = true;
     this.offset = 0;
     this.getHeroes();
   }
